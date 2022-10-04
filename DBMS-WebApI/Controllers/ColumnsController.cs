@@ -1,107 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DBMS_WebApI.Entities;
+using DBMS_WebApI.CQRS.Columns.Models;
+using DBMS_WebApI.CQRS.Columns.Queries.GetAllColumns;
+using DBMS_WebApI.CQRS.Columns.Commands.UpdateColumn;
+using DBMS_WebApI.CQRS.Columns.Commands.CreateColumn;
+using DBMS_WebApI.CQRS.Columns.Commands.DeleteColumn;
 
 namespace DBMS_WebApI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ColumnsController : ControllerBase
+    public class ColumnsController : ApiController
     {
         private readonly DataBaseContext _context;
 
-        public ColumnsController(DataBaseContext context)
+        public ColumnsController(IMediator mediator) : base(mediator)
         {
-            _context = context;
         }
 
-        // GET: api/Columns
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Column>>> GetColumns()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ColumnsList))]
+        public async Task<ActionResult> GetColumns()
         {
-            return await _context.Columns.ToListAsync();
+            var result = await Mediator.Send(new GetColumns());
+            return Ok(result);
         }
 
-        // GET: api/Columns/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Column>> GetColumn(int id)
+        
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ColumnsList))]
+        public async Task<IActionResult> UpdateColumn([FromBody] UpdateColumnRequest updateColumnRequest)
         {
-            var column = await _context.Columns.FindAsync(id);
-
-            if (column == null)
-            {
-                return NotFound();
-            }
-
-            return column;
+            var result = await Mediator.Send(updateColumnRequest);
+            return Ok(result);
         }
 
-        // PUT: api/Columns/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutColumn(int id, Column column)
-        {
-            if (id != column.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(column).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ColumnExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Columns
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Column>> PostColumn(Column column)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ColumnsList))]
+        public async Task<IActionResult> CreateColumn([FromBody] CreateColumnRequest createColumnRequest)
         {
-            _context.Columns.Add(column);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetColumn", new { id = column.Id }, column);
+            var result = await Mediator.Send(createColumnRequest);
+            return Ok(result);
         }
 
-        // DELETE: api/Columns/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColumn(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ColumnsList))]
+        public async Task<IActionResult> DeleteColumn([FromQuery] DeleteColumnRequest deleteColumnRequest)
         {
-            var column = await _context.Columns.FindAsync(id);
-            if (column == null)
-            {
-                return NotFound();
-            }
-
-            _context.Columns.Remove(column);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var result = await Mediator.Send(deleteColumnRequest);
+            return Ok(result);
         }
 
-        private bool ColumnExists(int id)
-        {
-            return _context.Columns.Any(e => e.Id == id);
-        }
     }
 }
