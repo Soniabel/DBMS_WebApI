@@ -1,107 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DBMS_WebApI.Entities;
+using DBMS_WebApI.CQRS.Rows.Models;
+using DBMS_WebApI.CQRS.Rows.Queries.GetAllRows;
+using DBMS_WebApI.CQRS.Rows.Commands.UpdateRow;
+using DBMS_WebApI.CQRS.Rows.Commands.CreateRow;
+using DBMS_WebApI.CQRS.Rows.Commands.DeleteRow;
 
 namespace DBMS_WebApI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RowsController : ControllerBase
+    public class RowsController : ApiController
     {
         private readonly DataBaseContext _context;
 
-        public RowsController(DataBaseContext context)
+        public RowsController(IMediator mediator) : base(mediator)
         {
-            _context = context;
         }
 
-        // GET: api/Rows
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Row>>> GetRows()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RowsList))]
+        public async Task<ActionResult> GetRows()
         {
-            return await _context.Rows.ToListAsync();
+            var result = await Mediator.Send(new GetRows());
+            return Ok(result);
         }
 
-        // GET: api/Rows/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Row>> GetRow(int id)
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RowsList))]
+        public async Task<IActionResult> UpdateRow([FromBody] UpdateRowRequest updateRowRequest)
         {
-            var row = await _context.Rows.FindAsync(id);
-
-            if (row == null)
-            {
-                return NotFound();
-            }
-
-            return row;
+            var result = await Mediator.Send(updateRowRequest);
+            return Ok(result);
         }
 
-        // PUT: api/Rows/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRow(int id, Row row)
-        {
-            if (id != row.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(row).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RowExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Rows
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Row>> PostRow(Row row)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RowsList))]
+        public async Task<IActionResult> CreateRow([FromBody] CreateRowRequest createRowRequest)
         {
-            _context.Rows.Add(row);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetRow", new { id = row.Id }, row);
+            var result = await Mediator.Send(createRowRequest);
+            return Ok(result);
         }
 
-        // DELETE: api/Rows/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRow(int id)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RowsList))]
+        public async Task<IActionResult> DeleteRow([FromQuery] DeleteRowRequest deleteRowRequest)
         {
-            var row = await _context.Rows.FindAsync(id);
-            if (row == null)
-            {
-                return NotFound();
-            }
-
-            _context.Rows.Remove(row);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var result = await Mediator.Send(deleteRowRequest);
+            return Ok(result);
         }
 
-        private bool RowExists(int id)
-        {
-            return _context.Rows.Any(e => e.Id == id);
-        }
     }
 }

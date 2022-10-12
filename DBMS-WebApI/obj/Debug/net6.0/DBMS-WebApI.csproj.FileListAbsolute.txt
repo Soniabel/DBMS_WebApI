@@ -264,3 +264,5 @@ E:\Універ\4курс_1семестр\IT\DBMS-WebApI\DBMS-WebApI\obj\Debug\n
 E:\Універ\4курс_1семестр\IT\DBMS-WebApI\DBMS-WebApI\bin\Debug\net6.0\AutoMapper.dll
 E:\Універ\4курс_1семестр\IT\DBMS-WebApI\DBMS-WebApI\bin\Debug\net6.0\MediatR.dll
 E:\Універ\4курс_1семестр\IT\DBMS-WebApI\DBMS-WebApI\bin\Debug\net6.0\MediatR.Contracts.dll
+E:\Універ\4курс_1семестр\IT\DBMS-WebApI\DBMS-WebApI\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+E:\Універ\4курс_1семестр\IT\DBMS-WebApI\DBMS-WebApI\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll

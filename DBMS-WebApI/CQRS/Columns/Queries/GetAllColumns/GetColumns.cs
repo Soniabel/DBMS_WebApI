@@ -28,7 +28,7 @@ namespace DBMS_WebApI.CQRS.Columns.Queries.GetAllColumns
 
                 if (columns is null)
                 {
-                    throw new NotFoundException("Cells is empty!");
+                    throw new NotFoundException("Columns is empty!");
                 }
 
                 return new ColumnsList { Columns = columns };

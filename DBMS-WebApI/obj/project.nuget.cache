@@ -1,13 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "ZVerhCVgGDWSb0Uh7cR3CuKF6TtbkytOWZqk228k2dalmgHqhWiM2rsm4FF53nRXFoY9D4q5V8yXTJglIWp7Ig==",
+  "dgSpecHash": "/0Rfzge6hq8WDmmnKqAXbfdWj/wDUaWzTlWGPvvRES3zZs9DNm4YXoKwPyjmLLAL4oMIHER/nO8m1ZMIiSGvYw==",
   "success": true,
   "projectFilePath": "E:\\Універ\\4курс_1семестр\\IT\\DBMS-WebApI\\DBMS-WebApI\\DBMS-WebApI.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Sofiia\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
+    "C:\\Users\\Sofiia\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
+    "C:\\Users\\Sofiia\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\Sofiia\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
-    "C:\\Users\\Sofiia\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
+    "C:\\Users\\Sofiia\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
     "C:\\Users\\Sofiia\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\Sofiia\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.0.0\\mediatr.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\Sofiia\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\Sofiia\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\Sofiia\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",

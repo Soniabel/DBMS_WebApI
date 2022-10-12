@@ -1,107 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DBMS_WebApI.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using DBMS_WebApI.CQRS.Tables.Models;
+using DBMS_WebApI.CQRS.Tables.Queries.GetAllTables;
+using DBMS_WebApI.CQRS.Tables.Queries.GetTableById;
+using DBMS_WebApI.CQRS.Tables.Commands.UpdateTable;
+using DBMS_WebApI.CQRS.Tables.Commands.CreateTable;
+using DBMS_WebApI.CQRS.Tables.Commands.DeleteTable;
 
 namespace DBMS_WebApI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TablesController : ControllerBase
+    public class TablesController : ApiController
     {
-        private readonly DataBaseContext _context;
-
-        public TablesController(DataBaseContext context)
+        public TablesController(IMediator mediator) : base(mediator)
         {
-            _context = context;
         }
 
-        // GET: api/Tables
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Table>>> GetTables()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TablesList))]
+        public async Task<IActionResult> Get()
         {
-            return await _context.Tables.ToListAsync();
+            var result = await Mediator.Send(new GetTables());
+            return Ok(result);
         }
 
-        // GET: api/Tables/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Table>> GetTable(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TablesList))]
+        public async Task<IActionResult> GetById([FromQuery] GetTableByIdRequest getTableById)
         {
-            var table = await _context.Tables.FindAsync(id);
-
-            if (table == null)
-            {
-                return NotFound();
-            }
-
-            return table;
+            var result = await Mediator.Send(getTableById);
+            return Ok(result);
         }
 
-        // PUT: api/Tables/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTable(int id, Table table)
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TablesList))]
+        public async Task<IActionResult> UpdateTable([FromBody] UpdateTableRequest updateTableRequest)
         {
-            if (id != table.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(table).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TableExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            var result = await Mediator.Send(updateTableRequest);
+            return Ok(result);
         }
 
-        // POST: api/Tables
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Table>> PostTable(Table table)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TablesList))]
+        public async Task<IActionResult> CreateTable([FromBody] CreateTableRequest createTableRequest)
         {
-            _context.Tables.Add(table);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTable", new { id = table.Id }, table);
+            var result = await Mediator.Send(createTableRequest);
+            return Ok(result);
         }
 
-        // DELETE: api/Tables/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTable(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TablesList))]
+        public async Task<IActionResult> DeleteTable([FromQuery] DeleteTableRequest deleteTableRequest)
         {
-            var table = await _context.Tables.FindAsync(id);
-            if (table == null)
-            {
-                return NotFound();
-            }
-
-            _context.Tables.Remove(table);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var result = await Mediator.Send(deleteTableRequest);
+            return Ok(result);
         }
 
-        private bool TableExists(int id)
-        {
-            return _context.Tables.Any(e => e.Id == id);
-        }
     }
 }

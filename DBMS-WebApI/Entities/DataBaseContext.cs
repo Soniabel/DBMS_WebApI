@@ -7,7 +7,7 @@ namespace DBMS_WebApI.Entities
         public DataBaseContext(DbContextOptions<DataBaseContext> options)
                     : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
 
         }
         public virtual DbSet<DataBase> DataBases { get; set; }

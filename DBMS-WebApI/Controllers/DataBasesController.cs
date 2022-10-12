@@ -1,107 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DBMS_WebApI.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using DBMS_WebApI.CQRS.DataBases.Models;
+using DBMS_WebApI.CQRS.DataBases.Queries.GetAllDataBases;
+using DBMS_WebApI.CQRS.DataBases.Queries.GetDataBaseById;
+using DBMS_WebApI.CQRS.DataBases.Commands.UpdateDataBase;
+using DBMS_WebApI.CQRS.DataBases.Commands.CreateDataBase;
+using DBMS_WebApI.CQRS.DataBases.Commands.DeleteDataBase;
 
 namespace DBMS_WebApI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DataBasesController : ControllerBase
+    public class DataBasesController : ApiController
     {
-        private readonly DataBaseContext _context;
-
-        public DataBasesController(DataBaseContext context)
+        public DataBasesController(IMediator mediator) : base(mediator)
         {
-            _context = context;
         }
 
-        // GET: api/DataBases
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DataBase>>> GetDataBases()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DataBaseList))]
+        public async Task<IActionResult> Get()
         {
-            return await _context.DataBases.ToListAsync();
+            var result = await Mediator.Send(new GetDataBases());
+            return Ok(result);
         }
 
-        // GET: api/DataBases/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DataBase>> GetDataBase(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DataBaseList))]
+        public async Task<IActionResult> GetById([FromQuery] GetDataBaseByIdRequest getDataBaseById)
         {
-            var dataBase = await _context.DataBases.FindAsync(id);
-
-            if (dataBase == null)
-            {
-                return NotFound();
-            }
-
-            return dataBase;
+            var result = await Mediator.Send(getDataBaseById);
+            return Ok(result);
         }
 
-        // PUT: api/DataBases/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDataBase(int id, DataBase dataBase)
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DataBaseList))]
+        public async Task<IActionResult> UpdateDataBase([FromBody] UpdateDataBaseRequest updateDataBaseRequest)
         {
-            if (id != dataBase.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(dataBase).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DataBaseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            var result = await Mediator.Send(updateDataBaseRequest);
+            return Ok(result);
         }
 
-        // POST: api/DataBases
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DataBase>> PostDataBase(DataBase dataBase)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(DataBaseList))]
+        public async Task<IActionResult> CreateDataBase([FromBody] CreateDataBaseRequest createDataBaseRequest)
         {
-            _context.DataBases.Add(dataBase);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetDataBase", new { id = dataBase.Id }, dataBase);
+            var result = await Mediator.Send(createDataBaseRequest);
+            return Ok(result);
         }
 
-        // DELETE: api/DataBases/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDataBase(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DataBaseList))]
+        public async Task<IActionResult> DeleteDataBase([FromQuery] DeleteDataBaseRequest deleteDataBaseRequest)
         {
-            var dataBase = await _context.DataBases.FindAsync(id);
-            if (dataBase == null)
-            {
-                return NotFound();
-            }
-
-            _context.DataBases.Remove(dataBase);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var result = await Mediator.Send(deleteDataBaseRequest);
+            return Ok(result);
         }
 
-        private bool DataBaseExists(int id)
-        {
-            return _context.DataBases.Any(e => e.Id == id);
-        }
     }
 }
