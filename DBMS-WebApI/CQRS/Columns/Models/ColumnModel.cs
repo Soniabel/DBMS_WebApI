@@ -1,4 +1,6 @@
-﻿namespace DBMS_WebApI.CQRS.Columns.Models
+﻿using DBMS_WebApI.CQRS.Tables.Models;
+
+namespace DBMS_WebApI.CQRS.Columns.Models
 {
     public class ColumnModel
     {
@@ -8,6 +10,6 @@
 
         public string TypeFullName { get; set; }
 
-        public int TableId { get; set; }
+        public TableModel Table { get; set; }
     }
 }

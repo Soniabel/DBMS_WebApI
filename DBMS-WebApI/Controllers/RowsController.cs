@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using DBMS_WebApI.Entities;
 using DBMS_WebApI.CQRS.Rows.Models;
 using DBMS_WebApI.CQRS.Rows.Queries.GetAllRows;
-using DBMS_WebApI.CQRS.Rows.Commands.UpdateRow;
 using DBMS_WebApI.CQRS.Rows.Commands.CreateRow;
 using DBMS_WebApI.CQRS.Rows.Commands.DeleteRow;
 
@@ -26,14 +25,7 @@ namespace DBMS_WebApI.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RowsList))]
-        public async Task<IActionResult> UpdateRow([FromBody] UpdateRowRequest updateRowRequest)
-        {
-            var result = await Mediator.Send(updateRowRequest);
-            return Ok(result);
-        }
-
+        [Route("dataBases/{DataBaseId}/tables/{TableId}/row")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RowsList))]
         public async Task<IActionResult> CreateRow([FromBody] CreateRowRequest createRowRequest)
@@ -42,7 +34,8 @@ namespace DBMS_WebApI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
+        [Route("dataBases/{DataBaseId}/tables/{TableId}/rows/{Id}")]
+        [HttpDelete]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RowsList))]
         public async Task<IActionResult> DeleteRow([FromQuery] DeleteRowRequest deleteRowRequest)
         {

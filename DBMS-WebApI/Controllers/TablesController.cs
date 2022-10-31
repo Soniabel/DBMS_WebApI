@@ -23,7 +23,8 @@ namespace DBMS_WebApI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [Route("dataBases/{DataBaseId}/tables/{Id}")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TablesList))]
         public async Task<IActionResult> GetById([FromQuery] GetTableByIdRequest getTableById)
         {
@@ -31,6 +32,7 @@ namespace DBMS_WebApI.Controllers
             return Ok(result);
         }
 
+        [Route("dataBases/{DataBaseId}/tables/{Id}")]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TablesList))]
         public async Task<IActionResult> UpdateTable([FromBody] UpdateTableRequest updateTableRequest)
@@ -39,6 +41,7 @@ namespace DBMS_WebApI.Controllers
             return Ok(result);
         }
 
+        [Route("dataBases/{DataBaseId}/table")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TablesList))]
         public async Task<IActionResult> CreateTable([FromBody] CreateTableRequest createTableRequest)
@@ -47,7 +50,8 @@ namespace DBMS_WebApI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
+        [Route("dataBases/{DataBaseId}/tables/{Id}")]
+        [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TablesList))]
         public async Task<IActionResult> DeleteTable([FromQuery] DeleteTableRequest deleteTableRequest)
         {

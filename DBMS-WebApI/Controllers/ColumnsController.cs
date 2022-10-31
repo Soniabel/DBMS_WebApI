@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using DBMS_WebApI.Entities;
 using DBMS_WebApI.CQRS.Columns.Models;
 using DBMS_WebApI.CQRS.Columns.Queries.GetAllColumns;
-using DBMS_WebApI.CQRS.Columns.Commands.UpdateColumn;
 using DBMS_WebApI.CQRS.Columns.Commands.CreateColumn;
 using DBMS_WebApI.CQRS.Columns.Commands.DeleteColumn;
 
@@ -26,15 +25,7 @@ namespace DBMS_WebApI.Controllers
             return Ok(result);
         }
 
-        
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ColumnsList))]
-        public async Task<IActionResult> UpdateColumn([FromBody] UpdateColumnRequest updateColumnRequest)
-        {
-            var result = await Mediator.Send(updateColumnRequest);
-            return Ok(result);
-        }
-
+        [Route("dataBases/{DataBaseId}/tables/{TableId}/column")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ColumnsList))]
         public async Task<IActionResult> CreateColumn([FromBody] CreateColumnRequest createColumnRequest)
@@ -43,7 +34,8 @@ namespace DBMS_WebApI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
+        [Route("dataBases/{DataBaseId}/tables/{TableId}/columns/{Id}")]
+        [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ColumnsList))]
         public async Task<IActionResult> DeleteColumn([FromQuery] DeleteColumnRequest deleteColumnRequest)
         {

@@ -16,7 +16,10 @@ namespace DBMS_WebApI.CQRS.Tables.Commands.DeleteTable
 
         public async Task<int> Handle(DeleteTableRequest request, CancellationToken cancellationToken)
         {
-            var table = await _context.Tables.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var table = await _context.Tables
+                .Include(table => table.Database)
+                .Where(table => table.DataBaseId == request.DataBaseId)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (table is null)
             {

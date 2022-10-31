@@ -9775,11 +9775,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Універ\\4курс_1семестр\\IT\\DBMS-WebApI\\DBMS-WebApI\\DBMS-WebApI.csproj",
+      "projectUniqueName": "E:\\University\\4course-1semester\\IT\\DBMS-WebApI\\DBMS-WebApI\\DBMS-WebApI.csproj",
       "projectName": "DBMS-WebApI",
-      "projectPath": "E:\\Універ\\4курс_1семестр\\IT\\DBMS-WebApI\\DBMS-WebApI\\DBMS-WebApI.csproj",
+      "projectPath": "E:\\University\\4course-1semester\\IT\\DBMS-WebApI\\DBMS-WebApI\\DBMS-WebApI.csproj",
       "packagesPath": "C:\\Users\\Sofiia\\.nuget\\packages\\",
-      "outputPath": "E:\\Універ\\4курс_1семестр\\IT\\DBMS-WebApI\\DBMS-WebApI\\obj\\",
+      "outputPath": "E:\\University\\4course-1semester\\IT\\DBMS-WebApI\\DBMS-WebApI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

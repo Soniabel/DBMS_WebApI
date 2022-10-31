@@ -35,6 +35,7 @@ namespace DBMS_WebApI.CQRS.Tables.Commands.UpdateTable
 
             var updatedTable = await _context.Tables
                .Include(table => table.Database)
+               .Where(table => table.DataBaseId == request.DataBaseId)
                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             return _mapper.Map<TableModel>(updatedTable);

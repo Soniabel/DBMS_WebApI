@@ -21,6 +21,8 @@ namespace DBMS_WebApI.CQRS.Tables.Queries.GetTableById
         public async Task<TableModel> Handle(GetTableByIdRequest request, CancellationToken cancellationToken)
         {
             var table = await _context.Tables.AsNoTracking()
+                   .Include(table => table.Database)
+                   //.Where(table => table.DataBaseId == request.DataBaseId)
                    .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (table is null)

@@ -23,6 +23,7 @@ namespace DBMS_WebApI.CQRS.Rows.Queries.GetAllRows
             public async Task<RowsList> Handle(GetRows request, CancellationToken cancellationToken)
             {
                 var rows = await _context.Rows.AsNoTracking()
+                    .Include(row => row.Table.Database)
                     .Select(rows => _mapper.Map<RowModel>(rows))
                     .ToListAsync(cancellationToken);
 

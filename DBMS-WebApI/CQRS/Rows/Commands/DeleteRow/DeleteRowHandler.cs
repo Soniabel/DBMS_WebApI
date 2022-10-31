@@ -16,7 +16,8 @@ namespace DBMS_WebApI.CQRS.Rows.Commands.DeleteRow
 
         public async Task<int> Handle(DeleteRowRequest request, CancellationToken cancellationToken)
         {
-            var row = await _context.Rows.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var row = await _context.Rows
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (row is null)
             {

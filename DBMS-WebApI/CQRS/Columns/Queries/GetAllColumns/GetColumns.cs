@@ -23,6 +23,7 @@ namespace DBMS_WebApI.CQRS.Columns.Queries.GetAllColumns
             public async Task<ColumnsList> Handle(GetColumns request, CancellationToken cancellationToken)
             {
                 var columns = await _context.Columns.AsNoTracking()
+                    .Include(column => column.Table.Database)
                     .Select(columns => _mapper.Map<ColumnModel>(columns))
                     .ToListAsync(cancellationToken);
 

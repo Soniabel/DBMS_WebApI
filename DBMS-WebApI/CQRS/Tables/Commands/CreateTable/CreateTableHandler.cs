@@ -24,7 +24,11 @@ namespace DBMS_WebApI.CQRS.Tables.Commands.CreateTable
             _context.Tables.Add(table);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<TableModel>(table);
+            var createdTable = await _context.Tables
+                .Include(table => table.Database)
+                .FirstOrDefaultAsync(t => t.Id == table.Id);
+
+            return _mapper.Map<TableModel>(createdTable);
         }
     }
 }

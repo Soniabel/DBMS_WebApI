@@ -2,7 +2,7 @@
 using DBMS_WebApI.CQRS.Columns.Models;
 using DBMS_WebApI.Entities;
 using MediatR;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace DBMS_WebApI.CQRS.Columns.Commands.CreateColumn
 {
@@ -24,7 +24,11 @@ namespace DBMS_WebApI.CQRS.Columns.Commands.CreateColumn
             _context.Columns.Add(column);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<ColumnModel>(column);
+            var createdColumn = _context.Columns
+                .Include(column => column.Table).ThenInclude(column => column.Database)
+                .FirstOrDefault(column => column.Id == column.Id);
+
+            return _mapper.Map<ColumnModel>(createdColumn);
         }
     }
 }

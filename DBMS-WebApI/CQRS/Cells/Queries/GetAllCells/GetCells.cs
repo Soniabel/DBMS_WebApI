@@ -23,6 +23,8 @@ namespace DBMS_WebApI.CQRS.Cells.Queries.GetAllCells
             public async Task<CellsList> Handle(GetCells request, CancellationToken cancellationToken)
             {
                 var cells = await _context.Cells.AsNoTracking()
+                    .Include(cell => cell.Row.Table.Database)
+                    .Include(cell => cell.Column.Table.Database)
                     .Select(cells => _mapper.Map<CellModel>(cells))
                     .ToListAsync(cancellationToken);
 

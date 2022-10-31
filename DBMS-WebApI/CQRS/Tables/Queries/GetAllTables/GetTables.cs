@@ -23,6 +23,7 @@ namespace DBMS_WebApI.CQRS.Tables.Queries.GetAllTables
             public async Task<TablesList> Handle(GetTables request, CancellationToken cancellationToken)
             {
                 var tables = await _context.Tables.AsNoTracking()
+                    .Include(table => table.Database)
                     .Select(tables => _mapper.Map<TableModel>(tables))
                     .ToListAsync(cancellationToken);
 

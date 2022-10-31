@@ -5,6 +5,7 @@ namespace DBMS_WebApI.CQRS.Tables.Queries.GetTableById
 {
     public class GetTableByIdRequest : IRequest<TableModel>
     {
+        public int DataBaseId { get; set; }
         public int Id { get; set; }
     }
 }

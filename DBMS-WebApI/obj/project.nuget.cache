@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/0Rfzge6hq8WDmmnKqAXbfdWj/wDUaWzTlWGPvvRES3zZs9DNm4YXoKwPyjmLLAL4oMIHER/nO8m1ZMIiSGvYw==",
+  "dgSpecHash": "xNYu2ogeJgEIgttEZiiNdj2GchvDXCcnLVrbMogrszc3X6NjJXEXJxPmr1kp5Iflk7gx9pLpMRa1uTj5u+6K2A==",
   "success": true,
-  "projectFilePath": "E:\\Універ\\4курс_1семестр\\IT\\DBMS-WebApI\\DBMS-WebApI\\DBMS-WebApI.csproj",
+  "projectFilePath": "E:\\University\\4course-1semester\\IT\\DBMS-WebApI\\DBMS-WebApI\\DBMS-WebApI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sofiia\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Sofiia\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
